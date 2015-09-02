@@ -1,0 +1,11 @@
+.vcenter {
+    padding-top: 50%;
+    float: none;
+}
+
+.header {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    vertical-align: middle;
+    float: none;
+}
