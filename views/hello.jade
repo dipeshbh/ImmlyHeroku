@@ -15,6 +15,7 @@ html(lang='en')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
     // Latest compiled and minified JavaScript
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.js")
 
 
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -46,7 +47,7 @@ html(lang='en')
                 p Immigrants build nations
         // /.row
 
-        each result in returnResults
+        each result in returnResults.Results
           .row
             .col-md-2
               a(href='#')
@@ -59,39 +60,33 @@ html(lang='en')
               a.btn.btn-primary(href='#{result.link}')
                 | View Full Article 
                 span.glyphicon.glyphicon-chevron-right
-        
+          hr
 
-        hr
+
         // Pagination
+        - var totalPages = returnResults.totalPages
+        - var currentPage = returnResults.currentPage
+        -var p = 1
         .row.text-center
           .col-lg-12
             ul.pagination
-              li
-                a(href='#') «
-              li.active
-                a(href='#') 1
-              li
-                a(href='#') 2
-              li
-                a(href='#') 3
-              li
-                a(href='#') 4
-              li
-                a(href='#') 5
-              li
-                a(href='#') »
+              while p <= totalPages
+                li(class = (p == currentPage ? 'active' : '' ))
+                  a(href='../parse?p='+p) #{p}
+                - p++
 
-        a.twitter-timeline(href='https://twitter.com/search?q=%23I140EAD%20OR%20%23Immigration', data-widget-id='638395065631543296') Tweets about #I140EAD OR #Immigration
-          script.
-            !function (d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-              if (!d.getElementById(id)) {
-                js = d.createElement(s);
-                js.id = id;
-                js.src = p + "://platform.twitter.com/widgets.js";
-                fjs.parentNode.insertBefore(js, fjs);
-              }
-            }(document, "script", "twitter-wjs");
+        h1= header
+        .container#tweet-container
+        script.
+          var socket = io.connect(window.location.hostname);
+          socket.on('connection', function () {
+            console.log('Connected!');
+          });
+
+          socket.on('tweets', function (tweet) {
+            var html = '<div class="row"><div class="col-md-6 col-md-offset-3 tweet"><a href="https://twitter.com/' + tweet.screen_name + '" target="_blank"><img src="' + tweet.user_profile_image + '" class="avatar pull-left"/></a><div class="names"><span class="full-name">' + tweet.name + ' </span><span class="username">@' + tweet.screen_name + '</span></div><div class="contents"><span class="text">' + tweet.text + '</span></div></div></div>';
+            $('#tweet-container').append(html);
+          });
 
         // /.row
         // Footer

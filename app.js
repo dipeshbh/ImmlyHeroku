@@ -9,13 +9,28 @@ Parse.initialize("vysdh19Gum7JGv4dv965WUKrrBCDicYrtGfb91dD", "2BHDnHGIdieNtYbcwF
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var xmlParserTest = require('./routes/xmlparsertest');
+
 var track = require('./routes/track');
 
 //console.log("xmlparsertest initialize" + xmlParserTest);
 
 
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+exports.io = io;
+
+module.exports = app;
+
+var xmlParserTest = require('./routes/xmlparsertest');
+//Set the sockets.io configuration.
+//THIS IS NECESSARY ONLY FOR HEROKU!
+/*io.configure(function() {
+  io.set('transports', ['xhr-polling']);
+  io.set('polling duration', 10);
+});*/
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -69,6 +84,4 @@ app.use(function(err, req, res, next) {
 });
 
 
-module.exports = app;
-
-app.listen(3000);
+server.listen(3000);

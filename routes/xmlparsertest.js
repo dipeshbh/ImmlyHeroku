@@ -6,7 +6,9 @@ var async = require('async-master');
 var Twit = require('twit');
 
 
-function retrieveFeedSource(res) {
+
+
+function retrieveFeedSource(req, res) {
     //console.log("inside retrieveFeedSource function")
     var FeedSource = Parse.Object.extend("FeedSource");
     //console.log("FeedSource");
@@ -14,6 +16,13 @@ function retrieveFeedSource(res) {
     var finalDict = [];
     var queryResults = [{}];
     var count = 0;
+    var pageLimit = 20;
+    var currentPageCount = 1;
+    var totalPages = 1;
+
+    if (req.query.p != null) {
+        currentPageCount = req.query.p;
+    }
 
     query.find().then(function(results) {
 
@@ -60,7 +69,24 @@ function retrieveFeedSource(res) {
 
         }, function (err) {
             console.log("error in async function");
-            res.render("hello", {returnResults : finalDict});
+
+            var finalDictLength = finalDict.length;
+            totalPages = Math.ceil(finalDictLength/pageLimit);
+
+            var startIndex = (currentPageCount-1)*pageLimit;
+            var endIndex = currentPageCount*pageLimit;
+
+            if (finalDict.length <= endIndex) {
+                endIndex = finalDict.length - 1;
+            }
+
+            if (finalDict.length > startIndex && finalDict.length > endIndex) {
+                finalDict = finalDict.slice(startIndex, endIndex);
+            }
+
+            var finalJSON = {"Results" : finalDict, "totalPages" : totalPages, "currentPage" : currentPageCount}
+
+            res.render("hello", {returnResults : finalJSON});
         });
 
     }, function(error) {
@@ -70,12 +96,16 @@ function retrieveFeedSource(res) {
 }
 
 function composeTweets(res) {
+    var app = require('../app');
+    var io = app.io;
+
     var Twit = require('twit')
 
     var T = new Twit({
-        consumer_key:         'PNvpyiqMIWhQoDWGF4lhWce5u'
-        , consumer_secret:      '20OFaWoEOUa2cvaK2clj6h1DdZ3IS7ETXu691sz9BcLhGdTHHM'
-        , app_only_auth:        true
+        consumer_key: "xHN8QKKM1XiejeCqPm28BFzvL",
+        consumer_secret: "wB3zC77VyVVgSTTJPn13RaL9kzwAiFAhrYUVQag2REFNLpBFz2",
+        access_token:  "28385137-v4UDWsjBLzptX4RbiZUPpCKXVVBEipyGzzGrzYehM",
+        access_token_secret:  "DDHlEAb3pJU3AfSGd6Kxvrh2g5VcByAfUcSf1DyHT5eRR"
     });
 
 //
@@ -84,9 +114,11 @@ function composeTweets(res) {
 
     var stream = T.stream('statuses/filter', { track: ['#I140EAD', '#H4EAD', '#Immigration'] });
 
-    stream.on('tweet', function (tweet) {
-        console.log(tweet);
-    })
+    io.sockets.on('connection', function (socket) {
+        stream.on('tweet', function(tweet) {
+            socket.emit('info', { tweet: tweet});
+        });
+    });
 
 }
 
@@ -94,8 +126,8 @@ function composeTweets(res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    //composeTweets(res);
-    retrieveFeedSource(res);
+    composeTweets(res);
+    retrieveFeedSource(req, res);
     //console.log("sourcename is" + newResults[1]["sourceName"]);
 });
 
