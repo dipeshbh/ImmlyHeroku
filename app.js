@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Twit = require('twit');
 GLOBAL.Parse = require('parse').Parse;
 Parse.initialize("vysdh19Gum7JGv4dv965WUKrrBCDicYrtGfb91dD", "2BHDnHGIdieNtYbcwFvpLJ2T7RpOUvxtpfNafUTa");
 
@@ -19,11 +20,33 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-exports.io = io;
 
-module.exports = app;
+var tw = new Twit({
+  consumer_key: "xHN8QKKM1XiejeCqPm28BFzvL",
+  consumer_secret: "wB3zC77VyVVgSTTJPn13RaL9kzwAiFAhrYUVQag2REFNLpBFz2",
+  access_token:  "28385137-v4UDWsjBLzptX4RbiZUPpCKXVVBEipyGzzGrzYehM",
+  access_token_secret:  "DDHlEAb3pJU3AfSGd6Kxvrh2g5VcByAfUcSf1DyHT5eRR"
+});
+
+//
+//  search twitter for all tweets containing the word 'banana' since Nov. 11, 2011
+//
+//
+//  filter the twitter public stream by the word 'mango'.
+//
+var stream = tw.stream('statuses/filter', { track: 'immigration' })
+
+stream.on('tweet', function (tweet) {
+  io.emit('tweet',tweet);
+});
+
+
+
+
 
 var xmlParserTest = require('./routes/xmlparsertest');
+
+//xmlParserTest(io);
 //Set the sockets.io configuration.
 //THIS IS NECESSARY ONLY FOR HEROKU!
 /*io.configure(function() {
@@ -83,5 +106,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
+module.exports = app;
 
 server.listen(3000);

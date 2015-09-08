@@ -3,7 +3,6 @@ var router = express.Router();
 //var gfeed = require('google-feed-api');
 var gfeed = require('feed-read-master');
 var async = require('async-master');
-var Twit = require('twit');
 
 
 
@@ -16,9 +15,10 @@ function retrieveFeedSource(req, res) {
     var finalDict = [];
     var queryResults = [{}];
     var count = 0;
-    var pageLimit = 20;
+    var pageLimit = 10;
     var currentPageCount = 1;
     var totalPages = 1;
+    var maxArticles = 100;
 
     if (req.query.p != null) {
         currentPageCount = req.query.p;
@@ -70,6 +70,10 @@ function retrieveFeedSource(req, res) {
         }, function (err) {
             console.log("error in async function");
 
+            if (finalDict.length >maxArticles) {
+                finalDict = finalDict.splice(0,maxArticles-1);
+            }
+
             var finalDictLength = finalDict.length;
             totalPages = Math.ceil(finalDictLength/pageLimit);
 
@@ -95,38 +99,10 @@ function retrieveFeedSource(req, res) {
 
 }
 
-function composeTweets(res) {
-    var app = require('../app');
-    var io = app.io;
-
-    var Twit = require('twit')
-
-    var T = new Twit({
-        consumer_key: "xHN8QKKM1XiejeCqPm28BFzvL",
-        consumer_secret: "wB3zC77VyVVgSTTJPn13RaL9kzwAiFAhrYUVQag2REFNLpBFz2",
-        access_token:  "28385137-v4UDWsjBLzptX4RbiZUPpCKXVVBEipyGzzGrzYehM",
-        access_token_secret:  "DDHlEAb3pJU3AfSGd6Kxvrh2g5VcByAfUcSf1DyHT5eRR"
-    });
-
-//
-//  search twitter for all tweets containing the word 'banana' since Nov. 11, 2011
-//
-
-    var stream = T.stream('statuses/filter', { track: ['#I140EAD', '#H4EAD', '#Immigration'] });
-
-    io.sockets.on('connection', function (socket) {
-        stream.on('tweet', function(tweet) {
-            socket.emit('info', { tweet: tweet});
-        });
-    });
-
-}
-
-
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    composeTweets(res);
+    //composeTweets(res);
     retrieveFeedSource(req, res);
     //console.log("sourcename is" + newResults[1]["sourceName"]);
 });
