@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d89b2907-6162-4fcb-b945-8d809c650c26" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/hello.jade" afterPath="$PROJECT_DIR$/views/hello.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/track.jade" afterPath="$PROJECT_DIR$/views/track.jade" />
     </list>
     <ignored path="ImmlyNode.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,8 +66,8 @@
       <file leaf-file-name="hello.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/hello.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3046595">
-              <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.53763443">
+              <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -108,7 +107,7 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="31" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="31" />
+              <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -624,6 +623,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -726,10 +726,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/views/track.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="31" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="31" />
+        <state vertical-scroll-proportion="-17.777779">
+          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -742,18 +742,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/track.jade">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.777779">
-          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="1" selection-start-line="96" selection-start-column="1" selection-end-line="96" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/hello.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3046595">
-          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.53763443">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
           <folding />
         </state>
       </provider>

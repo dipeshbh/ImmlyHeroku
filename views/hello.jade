@@ -23,7 +23,7 @@ html(lang='en')
       $(function () {
 
 
-        var socket = io.connect('https://nodebbdb.herokuapp.com/');
+        var socket = io.connect('https://immlyheroku.herokuapp.com');
         socket.on('tweet', function (tweet) {
           var html = '<div class="col-xs-3"> <div class="panel panel-default bootcards-file"> <div class="panel-heading"> <h3 class="panel-title">'+tweet.user.name+'</h3> </div> <div class="list-group"> <div class="list-group-item"> <img src="'+tweet.user.profile_image_url+'"><h4 class="list-group-item-heading"> <a href="#"> '+tweet.user.screen_name+ '</a> </h4> <p class="list-group-item-text"><strong>'+tweet.user.screen_name+'</strong></p> </div> <div class="list-group-item"> <p class="list-group-item-text">'+tweet.text+'</p> </div> </div></div>'
           $('#tweet-container').append(html);
@@ -45,7 +45,7 @@ html(lang='en')
             li(role='presentation')
               a(href='../track' id='track') Track
             li(role='presentation')
-              a(href='http://localhost:4567') Forum
+              a(href='http://nodebbdb.herokuapp.com/') Forum
             li(role='presentation')
               a(href='#') Profile
       // Page Content
