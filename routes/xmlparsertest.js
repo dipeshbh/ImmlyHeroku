@@ -3,6 +3,7 @@ var router = express.Router();
 //var gfeed = require('google-feed-api');
 var gfeed = require('feed-read-master');
 var async = require('async-master');
+var acceptsHTML = true;
 
 
 
@@ -54,8 +55,8 @@ function retrieveFeedSource(req, res) {
                     returnResults["fileURL"] = fileURL;
                     returnResults["title"] = entry.title;
                     returnResults["link"] = entry.link;
-                    returnResults["summary"] = entry.contentSnippet;
-                    returnResults["date"] = entry.publishedDate;
+                    returnResults["summary"] = entry.content;
+                    returnResults["date"] = entry.published;
                     finalDict.push(returnResults);
 
 
@@ -90,7 +91,13 @@ function retrieveFeedSource(req, res) {
 
             var finalJSON = {"Results" : finalDict, "totalPages" : totalPages, "currentPage" : currentPageCount}
 
-            res.render("hello", {returnResults : finalJSON});
+            if (!acceptsHTML) {
+                res.send(finalJSON);
+            } else {
+                res.render("hello", {returnResults : finalJSON});
+            };
+
+
         });
 
     }, function(error) {
@@ -102,11 +109,15 @@ function retrieveFeedSource(req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+    if (req.baseUrl == '/ios') {
+        acceptsHTML = false;
+    }
+
     //composeTweets(res);
     retrieveFeedSource(req, res);
     //console.log("sourcename is" + newResults[1]["sourceName"]);
 });
-
 
 
 module.exports = router;

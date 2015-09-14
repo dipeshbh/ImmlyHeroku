@@ -12,6 +12,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var track = require('./routes/track');
+var acceptsHTML = true;
 
 //console.log("xmlparsertest initialize" + xmlParserTest);
 
@@ -42,7 +43,13 @@ stream.on('tweet', function (tweet) {
 
 
 
+if (app.get("/ios")) {
+  acceptsHTML = false
 
+}
+
+module.exports.acceptsHTML = acceptsHTML;
+module.exports = app;
 
 var xmlParserTest = require('./routes/xmlparsertest');
 
@@ -72,7 +79,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/parse', xmlParserTest);
+app.use('/ios', xmlParserTest);
 app.use('/track', track);
+app.use('/iostrack', track);
 
 
 // catch 404 and forward to error handler
@@ -106,6 +115,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-module.exports = app;
+
 
 server.listen(3000);

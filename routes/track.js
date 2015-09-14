@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var acceptsHTML = true;
+
 
 
 function getBulletin(res){
@@ -24,7 +26,14 @@ function getBulletin(res){
             queryResults.push(queryResults[i]);
         }
 
-        res.render("track",{results : queryResults});
+        var finalJSON = {"results":queryResults}
+
+        if (!acceptsHTML) {
+            res.send(finalJSON)
+        } else {
+            res.render("track",{results : queryResults});
+        }
+
 
     },function(error) {
         console.log("Error: " + error.code + " " + error.message);
@@ -34,6 +43,11 @@ function getBulletin(res){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+
+    if (req.baseUrl == '/iostrack') {
+        acceptsHTML = false;
+    }
+
     getBulletin(res);
     //res.render('track',{returnResults : [{}]});
 });
