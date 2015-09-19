@@ -71,6 +71,11 @@ function retrieveFeedSource(req, res) {
         }, function (err) {
             console.log("error in async function");
 
+            finalDict.sort( function(a,b) {
+                    return new Date(b.date) - new Date(a.date)
+                }
+            );
+
             if (finalDict.length >maxArticles) {
                 finalDict = finalDict.splice(0,maxArticles-1);
             }
@@ -93,6 +98,7 @@ function retrieveFeedSource(req, res) {
 
             if (!acceptsHTML) {
                 res.send(finalJSON);
+                acceptsHTML = true;
             } else {
                 res.render("hello", {returnResults : finalJSON});
             };
