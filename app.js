@@ -13,6 +13,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var track = require('./routes/track');
+var comments = require('./routes/comment');
 var acceptsHTML = true;
 
 //console.log("xmlparsertest initialize" + xmlParserTest);
@@ -83,6 +84,7 @@ app.use('/parse', xmlParserTest);
 app.use('/ios', xmlParserTest);
 app.use('/track', track);
 app.use('/iostrack', track);
+app.use('/comments', comments);
 
 
 // catch 404 and forward to error handler

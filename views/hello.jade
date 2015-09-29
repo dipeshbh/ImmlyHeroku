@@ -20,6 +20,11 @@ html(lang='en')
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.js")
     script(src="/node_modules/node-tweet-stream/lib/twitter.js")
     script.
+      function myFunction(url) {
+        window.open(url, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=1000, height=700");
+      }
+
+    script.
       $(function () {
 
 
@@ -71,6 +76,10 @@ html(lang='en')
                 | !{result.summary}
               a.btn.btn-primary(href='#{result.link}')
                 | View Full Article 
+                span.glyphicon.glyphicon-chevron-right
+              p
+              a.btn.btn-primary(href='#' onClick="myFunction('../comments?title=#{result.title}'); return false")
+                | Comment
                 span.glyphicon.glyphicon-chevron-right
           hr
 
