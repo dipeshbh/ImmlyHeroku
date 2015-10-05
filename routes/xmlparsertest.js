@@ -56,7 +56,7 @@ function retrieveFeedSource(req, res) {
                     returnResults["title"] = entry.title;
                     returnResults["link"] = entry.link;
                     returnResults["summary"] = entry.content;
-                    returnResults["date"] = entry.published;
+                    returnResults["date"] = entry.published.toString();
                     finalDict.push(returnResults);
 
 
@@ -69,10 +69,10 @@ function retrieveFeedSource(req, res) {
 
 
         }, function (err) {
-            console.log("error in async function");
+
 
             finalDict.sort( function(a,b) {
-                    return new Date(b.date) - new Date(a.date)
+                    return new Date(b.date).getTime() - new Date(a.date).getTime()
                 }
             );
 
